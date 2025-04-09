@@ -22,4 +22,4 @@ if user_input:
 
     
 import sys
-st.write(f"Running on Python {sys.version}")
+st.write(f"Running on latest Python {sys.version}")
