@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# ✅ Create .streamlit/config.toml inside the container
+# ✅ Inject Streamlit config for baseUrlPath
 RUN mkdir -p /app/.streamlit && \
     echo "\
 [server]\n\
@@ -20,4 +20,5 @@ baseUrlPath = \"app1\"\n\
 
 EXPOSE 8501
 
-CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0"]
+# ✅ Pass --server.baseUrlPath to CMD to override or align with config.toml
+CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0", "--server.baseUrlPath=app1"]
