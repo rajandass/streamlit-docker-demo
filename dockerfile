@@ -7,10 +7,17 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Add this line to copy the config
-COPY .streamlit /app/.streamlit
+# ✅ Create .streamlit/config.toml inside the container
+RUN mkdir -p /app/.streamlit && \
+    echo "\
+[server]\n\
+port = 8501\n\
+enableCORS = false\n\
+enableXsrfProtection = false\n\
+headless = true\n\
+baseUrlPath = \"app1\"\n\
+" > /app/.streamlit/config.toml
 
 EXPOSE 8501
 
-# Add baseUrlPath + other flags in CMD (as extra safety)
-CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0", "--server.baseUrlPath=app1", "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
+CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0"]
